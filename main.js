@@ -12,6 +12,7 @@ function main() {
         camera.attachControl(canvas, true);
         const light = new BABYLON.PointLight("light", new BABYLON.Vector3(20, 20, 0), scene);
         const sound = new BABYLON.Sound("", "sound/bgm.mp3", scene, null, {loop: true, autoplay: true});
+        let animation = true;
         // GLTFファイルを指定する
         const cat = BABYLON.SceneLoader.ImportMesh("", "model.glb", "", scene, function (meshes) {
             const model = meshes[0];
@@ -20,13 +21,14 @@ function main() {
             function stopAnimationAtFrame1() {
                 if (animationGroup) {
                     animationGroup.pause();
-                    // animationGroup.goToFrame(1); // フレーム1に移動
+                    animationGroup.goToFrame(1); // フレーム1に移動
                 }
             }
 
             function startAnimation() {
+                animation = false;
                 if (animationGroup) {
-                    animationGroup.goToFrame(30);
+                    animationGroup.goToFrame(59);
                     animationGroup.play(true);
                 }
             }
@@ -37,21 +39,22 @@ function main() {
             // 移動処理
             window.addEventListener("keydown", (event) => {
                 const speed = 0.1; // 移動速度
+                if(animation) startAnimation();
                 switch (event.key) {
                     case "s":
                         model.position.x += speed;
-                        startAnimation();
                         break;
                     case "w":
                         model.position.x -= speed;
-                        startAnimation();
                         break;
                 }
             });
 
+
             window.addEventListener("keyup", () => {
+                animation = true;
                 stopAnimationAtFrame1();
-            });dd
+            });
         });
 
         return scene;
