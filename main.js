@@ -39,21 +39,23 @@ function main() {
             // 移動処理
             window.addEventListener("keydown", (event) => {
                 const speed = 0.1; // 移動速度
-                if(animation) startAnimation();
                 switch (event.key) {
                     case "s":
+                        if(animation) startAnimation();
                         model.position.x += speed;
                         break;
                     case "w":
+                        if(animation) startAnimation();
                         model.position.x -= speed;
                         break;
                 }
             });
 
-
-            window.addEventListener("keyup", () => {
-                animation = true;
-                stopAnimationAtFrame1();
+            window.addEventListener("keyup", (e) => {
+                if (e.key === "s" || e.key === "w") {
+                    animation = true;
+                    stopAnimationAtFrame1();
+                }
             });
         });
 
